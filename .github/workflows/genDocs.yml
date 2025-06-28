@@ -1,0 +1,25 @@
+name: genDocs
+
+on: [push]
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    if: ${{ github.ref == 'refs/heads/master' }}
+    name: pandoc to vimdoc
+    steps:
+      - uses: actions/checkout@v2
+      - uses: kdheepak/panvimdoc@main
+        with:
+          vimdoc: themed-tabs
+          version: "Neovim >= 0.5.0"
+          treesitter: true
+          commit_user_name: "github-actions[bot]"
+          commit_user_email: "github-actions[bot]@users.noreply.github.com"
+          commit_author: "github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "autogen docs"
+          branch: ${{ github.head_ref }}
