@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: kdheepak/panvimdoc@main
         with:
-          vimdoc: themed-tabs
+          vimdoc: scope-gutter 
           version: "Neovim >= 0.5.0"
           treesitter: true
           commit_user_name: "github-actions[bot]"
