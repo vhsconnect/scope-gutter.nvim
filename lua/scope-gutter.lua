@@ -15,27 +15,13 @@ local context_cache = {}
 local last_cursor_line = 0
 
 local function has_treesitter()
-	local ok, parsers = pcall(require, "nvim-treesitter.parsers")
-	if not ok then
-		return false
-	end
-
-	local lang = parsers.get_buf_lang()
-	if not lang then
-		return false
-	end
-
-	return parsers.has_parser(lang)
+	local ok, parser = pcall(vim.treesitter.get_parser)
+	return ok and parser ~= nil
 end
 
 local function get_root()
-	local ok, ts_utils = pcall(require, "nvim-treesitter.ts_utils")
-	if not ok then
-		return nil
-	end
-
-	local parser = vim.treesitter.get_parser()
-	if not parser then
+	local ok, parser = pcall(vim.treesitter.get_parser)
+	if not ok or not parser then
 		return nil
 	end
 
